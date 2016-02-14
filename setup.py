@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import sys
 
@@ -12,6 +14,7 @@ except ImportError:
 base_dir = os.path.dirname(os.path.abspath(__file__))
 kwargs = {}
 version = "0.1.0"
+package_dir = "hellotravis-python"
 
 if setuptools is not None:
     # If setuptools is not available, you're on your own for dependencies.
@@ -30,6 +33,30 @@ if sys.argv[-1] == 'publish':
     os.system("git tag -a %s -m 'v%s'" % (version, version))
     print("Published version %s, do `git push --tags` to push new tag to remote" % version)
     sys.exit()
+
+
+def fullsplit(path, result=None):
+    """
+    Split a pathname into components (the opposite of os.path.join) in a
+    platform-neutral way.
+    """
+    if result is None:
+        result = []
+    head, tail = os.path.split(path)
+    if head == "":
+        return [tail] + result
+    if head == path:
+        return result
+    return fullsplit(head, [tail] + result)
+
+packages = []
+for dirpath, dirnames, filenames in os.walk(package_dir):
+    # ignore dirnames that start with '.'
+    for i, dirname in enumerate(dirnames):
+        if dirname.startswith("."):
+            del dirnames[i]
+    if "__init__.py" in filenames:
+        packages.append(".".join(fullsplit(dirpath)))
 
 setup(
     name="hellotravis-python",
@@ -51,7 +78,7 @@ setup(
     maintainer="Alexander Fahlke",
     maintainer_email="alexander.fahlke@gmail.com",
     license="http://www.apache.org/licenses/LICENSE-2.0",
-    packages=["hellotravis-python", "hellotravis-python.test"],
+    packages=packages,
     zip_safe=False,
     test_suite="hellotravis-python.test.get_tests",
     **kwargs
