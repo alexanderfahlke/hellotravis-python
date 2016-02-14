@@ -1,0 +1,45 @@
+# https://travis-ci.org/alexanderfahlke/hellotravis-python
+language: python
+
+# This reportedly works around an issue downloading packages from pypi on
+# travis.  Consider removing this after the underlying issue is fixed.
+# https://github.com/travis-ci/travis-ci/issues/2389
+sudo: false
+
+python:
+  - 2.7
+  - pypy
+  - 3.5
+  - nightly
+  - pypy3
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - python: nightly
+    - python: pypy
+    - python: pypy3
+
+notifications:
+  email:
+    recipients:
+    - alexander.fahlke+travis-ci@gmail.com
+    on_success: never
+    on_failure: change
+
+install:
+  # Build/test dependencies
+  - pip install -r requirements.txt
+  - pip install -r requirements-test.txt
+  - pip install coveralls
+
+before_script:
+  # Allow us to SSH passwordless to localhost
+  - ssh-keygen -f ~/.ssh/id_rsa -N ""
+  - cp ~/.ssh/{id_rsa.pub,authorized_keys}
+  # Creation of an SSH agent for testing forwarding
+  - eval $(ssh-agent)
+  - ssh-add
+
+after_success:
+  - coveralls
