@@ -2,7 +2,7 @@
 import unittest2 as unittest
 
 
-class ResourceTestCase(unittest.TestCase):
+class UtilsTestCase(unittest.TestCase):
 
     def setUp(self):
         self.testText = "Hello Travis CI!"
