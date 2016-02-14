@@ -41,5 +41,8 @@ before_script:
   - eval $(ssh-agent)
   - ssh-add
 
+script:
+  - coverage run --source=hellotravis-python setup.py test
+
 after_success:
   - coveralls

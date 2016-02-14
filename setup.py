@@ -39,12 +39,19 @@ setup(
         open(os.path.join(base_dir, "README.md"), "r").read(),
         open(os.path.join(base_dir, "CHANGELOG.md"), "r").read()
     ]),
+    classifiers=[
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: Implementation :: PyPy',
+        ],
     url="http://github.com/alexanderfahlke/hellotravis-python",
     author="Alexander Fahlke",
     author_email="alexander.fahlke@gmail.com",
     maintainer="Alexander Fahlke",
     maintainer_email="alexander.fahlke@gmail.com",
-    packages=["hellotravis-python"],
+    license="http://www.apache.org/licenses/LICENSE-2.0",
+    packages=["hellotravis-python", "hellotravis-python.test"],
     zip_safe=False,
     test_suite="tests.get_tests",
     **kwargs
