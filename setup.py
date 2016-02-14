@@ -53,6 +53,6 @@ setup(
     license="http://www.apache.org/licenses/LICENSE-2.0",
     packages=["hellotravis-python", "hellotravis-python.test"],
     zip_safe=False,
-    test_suite="tests.get_tests",
+    test_suite="hellotravis-python.test.get_tests",
     **kwargs
 )
